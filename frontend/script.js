@@ -1,85 +1,73 @@
 function loadEvent() {
-	const hECMAthlon = {
-		getMaxValue: function (input) {
-			var maxValues = input.split(",");
-			var maxValue = 0;
-			for (var i = 0; i < maxValues.length; i++) {
-				var tempValue = parseInt(maxValues[i]);
-				if (tempValue > maxValue) {
-					maxValue = tempValue;
-				}
-			}
-			return [maxValue];
-		},
+  const HECMATHLON = {
+    getMaxValue: (input) => {
+      return input.split(",").reduce((acc, val) => (val > acc ? val : acc));
+    },
+    getGreaterThan: (input) => {
+      return greaterValues.filter(
+        (element) => element > input && element <= 10
+      );
+    },
+    fizzBuzz: (input) => {
+      const start = 1;
+      let startArray = [...Array(input - start + 1).keys()].map(
+        (x) => x + start
+      );
+      return startArray.map((element) =>
+        element % 5 === 0 && element % 3 === 0
+          ? "FizzBuzz"
+          : element % 3 === 0
+          ? //wenn keine else condition, das gibts nicht bei ternary
+            "Fizz"
+          : element % 5 === 0
+          ? "Buzz"
+          : element
+      );
+    },
+  };
 
-		getGreaterThan: function (input) {
-			var greaterValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-			var greaterNums = [];
-			for (var j = 0; j < greaterValues.length; j++) {
-				if (greaterValues[j] > parseInt(input)) {
-					greaterNums.push(greaterValues[j]);
-				}
-			}
-			return greaterNums;
-		},
+  const maxValueBtn = document.querySelector(".maxValue__btn");
+  const greaterThanBtn = document.querySelector(".greaterThan__btn");
+  const fizzBuzzBtn = document.querySelector(".fizzBuzz__btn");
 
-		fizzBuzz: function (input) {
-			var output = [];
-			for (var k = 1; k <= parseInt(input); k++) {
-				var value;
-				if (k % 5 === 0 && k % 3 === 0) value = "FizzBuzz";
-				else if (k % 3 === 0) value = "Fizz";
-				else if (k % 5 === 0) value = "Buzz";
-				else value = k;
-				output.push(value);
-			}
-			return output;
-		},
-	};
+  const maxValueInput = document.querySelector(".maxValue__input");
+  const greaterThanInput = document.querySelector(".greaterThan__input");
+  const fizzBuzzInput = document.querySelector(".fizzBuzz__input");
 
-	var maxValueBtn = document.querySelector(".maxValue__btn");
-	var greaterThanBtn = document.querySelector(".greaterThan__btn");
-	var fizzBuzzBtn = document.querySelector(".fizzBuzz__btn");
+  const maxValueRoot = document.querySelector(".maxValue__container");
+  const greaterThanRoot = document.querySelector(".greaterThan__container");
+  const fizzBuzzRoot = document.querySelector(".fizzBuzz__container");
 
-	var maxValueInput = document.querySelector(".maxValue__input");
-	var greaterThanInput = document.querySelector(".greaterThan__input");
-	var fizzBuzzInput = document.querySelector(".fizzBuzz__input");
+  let greaterValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-	var maxValueRoot = document.querySelector(".maxValue__container");
-	var greaterThanRoot = document.querySelector(".greaterThan__container");
-	var fizzBuzzRoot = document.querySelector(".fizzBuzz__container");
+  const getOutput = (output) => [
+    "The function starts",
+    ...output,
+    "The function ends",
+  ];
 
-	maxValueBtn.addEventListener("click", () => {
-		var maxValue = getOutput(hECMAthlon.getMaxValue(maxValueInput.value));
-		logResult(maxValueRoot, maxValue);
-	});
-	greaterThanBtn.addEventListener("click", () => {
-		var greaterValues = getOutput(
-			hECMAthlon.getGreaterThan(greaterThanInput.value)
-		);
-		logResult(greaterThanRoot, greaterValues);
-	});
-	fizzBuzzBtn.addEventListener("click", () => {
-		var result = getOutput(hECMAthlon.fizzBuzz(fizzBuzzInput.value));
-		logResult(fizzBuzzRoot, result);
-	});
+  const logResult = (place, values) => {
+    while (place.firstChild) {
+      place.firstChild.remove();
+    }
+    for (let j = 0; j < values.length; j++) {
+      place.insertAdjacentHTML("beforeend", "<div>" + values[j] + "</div>");
+    }
+  };
 
-	function getOutput(output) {
-		var returnValue = ["The function starts"];
-		for (var i = 0; i < output.length; i++) {
-			returnValue.push(output[i]);
-		}
-		returnValue.push("The function ends");
-		return returnValue;
-	}
-
-	function logResult(place, values) {
-		while (place.firstChild) {
-			place.firstChild.remove();
-		}
-		for (var j = 0; j < values.length; j++) {
-			place.insertAdjacentHTML("beforeend", "<div>" + values[j] + "</div>");
-		}
-	}
+  maxValueBtn.addEventListener("click", () => {
+    let maxValue = getOutput(HECMATHLON.getMaxValue(maxValueInput.value));
+    logResult(maxValueRoot, maxValue);
+  });
+  greaterThanBtn.addEventListener("click", () => {
+    let greaterValues = getOutput(
+      HECMATHLON.getGreaterThan(greaterThanInput.value)
+    );
+    logResult(greaterThanRoot, greaterValues);
+  });
+  fizzBuzzBtn.addEventListener("click", () => {
+    let result = getOutput(HECMATHLON.fizzBuzz(fizzBuzzInput.value));
+    logResult(fizzBuzzRoot, result);
+  });
 }
 window.addEventListener("load", loadEvent);
