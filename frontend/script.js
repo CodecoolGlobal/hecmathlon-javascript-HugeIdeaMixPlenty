@@ -1,8 +1,9 @@
 function loadEvent() {
   const HECMATHLON = {
     getMaxValue: (input) => {
-      return input.split(",").reduce((acc, val) => (val > acc ? val : acc));
+      return [Math.max(...input.split(",").map((x) => parseInt(x)))];
     },
+
     getGreaterThan: (input) => {
       return greaterValues.filter(
         (element) => element > input && element <= 10
@@ -17,8 +18,7 @@ function loadEvent() {
         element % 5 === 0 && element % 3 === 0
           ? "FizzBuzz"
           : element % 3 === 0
-          ? //wenn keine else condition, das gibts nicht bei ternary
-            "Fizz"
+          ? "Fizz"
           : element % 5 === 0
           ? "Buzz"
           : element
